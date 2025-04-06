@@ -1,11 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class dialogeTools {
+public class dialogeEvent : Event {
 
-    public static IEnumerator dialogeCoroutine(string[] text, float speed, TextMeshProUGUI textBox)
+    string[] text;
+    float speed;
+    TextMeshProUGUI textBox;
+
+    public dialogeEvent(string[] text, float speed, TextMeshProUGUI textBox)
+    {
+        this.text = text;
+        this.speed = speed;
+        this.textBox = textBox;
+    }
+
+    public override void execute()
+    {
+        StartCoroutine(dialogeCoroutine(text, speed, textBox));
+    }
+
+    public override bool isFinished()
+    {
+        return finished;
+    }
+
+    public override void end()
+    {
+        
+    }
+
+    public IEnumerator dialogeCoroutine(string[] text, float speed, TextMeshProUGUI textBox)
     {
         while (!Input.GetMouseButtonDown(0))
         {
@@ -42,5 +69,8 @@ public class dialogeTools {
             dialogeIndex++;
 
         }
+
+        finished = true;
+
     }
 }
