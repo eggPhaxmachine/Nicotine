@@ -1,19 +1,18 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
 using System.Collections;
-using UnityEngine.Rendering.VirtualTexturing;
 
-public abstract class Event : MonoBehaviour
+public abstract class Event
 {
     protected bool finished;
 
     public void initialize()
     {
         finished = false;
+        onStart();
     }
 
-    public abstract void execute();
+    public abstract void onStart();
+
+    public abstract IEnumerator execute();
 
     public abstract bool isFinished();
     

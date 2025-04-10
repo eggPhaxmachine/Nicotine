@@ -23,7 +23,7 @@ public class EventScheduler : MonoBehaviour
         {
             evt.initialize();
 
-            evt.execute();
+            StartCoroutine(evt.execute());
 
             while (!evt.isFinished())
             {

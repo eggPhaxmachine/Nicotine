@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class testInteractionController : MonoBehaviour
+public class testInteractionController : EventScheduler
 {
-    EventScheduler testInteraction = new EventScheduler();
 
     public float speed;
 
@@ -15,10 +15,10 @@ public class testInteractionController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        testInteraction.schedule(new dialogeEvent(textAssets.test.test1, speed, mainTextBox));
-        testInteraction.schedule(new dialogeEvent(textAssets.test.test2, speed, playerTextBox));
+        schedule(new dialogeEvent(textAssets.test.test1, speed, mainTextBox));
+        schedule(new dialogeEvent(textAssets.test.test2, speed, playerTextBox));
 
-        testInteraction.run();
+        run();
     }
 
     // Update is called once per frame

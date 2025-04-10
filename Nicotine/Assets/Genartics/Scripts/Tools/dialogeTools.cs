@@ -1,7 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class dialogeEvent : Event {
@@ -17,9 +15,14 @@ public class dialogeEvent : Event {
         this.textBox = textBox;
     }
 
-    public override void execute()
+    public override void onStart()
     {
-        StartCoroutine(dialogeCoroutine(text, speed, textBox));
+    
+    }
+
+    public override IEnumerator execute()
+    {
+        return dialogeCoroutine(text, speed, textBox);
     }
 
     public override bool isFinished()
@@ -69,6 +72,13 @@ public class dialogeEvent : Event {
             dialogeIndex++;
 
         }
+
+        while (!Input.GetMouseButtonDown(0))
+        {
+            yield return null;
+        }
+
+        textBox.text = "";
 
         finished = true;
 
