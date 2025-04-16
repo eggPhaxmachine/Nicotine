@@ -5,11 +5,18 @@ using UnityEngine;
 public class EventScheduler : MonoBehaviour
 { 
 
-    private List<Event> events = new List<Event>();
+    private List<List<Event>> events = new List<List<Event>>();
 
     public void schedule(Event evt)
     {
-        events.Add(evt);
+        List<Event> path = new List<Event>{evt};
+
+        events.Add(path);
+    }
+
+    public void schedule(Event evt, int location)
+    {
+        events[location - 1].Add(evt);
     }
 
     public void run()
@@ -19,18 +26,40 @@ public class EventScheduler : MonoBehaviour
 
     public IEnumerator createCorotine()
     {
-        foreach (Event evt in events)
+
+        List<Event> runningEvents = new List<Event>();
+
+        foreach (List<Event> path in events)
         {
-            evt.initialize();
-
-            StartCoroutine(evt.execute());
-
-            while (!evt.isFinished())
+            foreach (Event evt in path)
             {
-                yield return null;
+
+                evt.initialize();
+
+                StartCoroutine(evt.execute());
+
+                runningEvents.Add(evt);
+
             }
 
-            evt.end();
+            while (runningEvents.Count != 0)
+            {
+                for (int i = 0; i < events.Count; i++)
+                {
+                    if (path[i].isFinished())
+                    {
+                        runningEvents.RemoveAt(i);
+                    }
+                }
+
+                yield return null;
+
+            }
+
+            foreach(Event evt in path)
+            {
+                evt.end();
+            }
         }
     }
 }
