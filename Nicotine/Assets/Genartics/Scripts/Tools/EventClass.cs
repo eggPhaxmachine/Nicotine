@@ -10,7 +10,7 @@ public abstract class Event
         onStart();
     }
 
-    public abstract void onStart();
+    protected abstract void onStart();
 
     public abstract IEnumerator execute();
 

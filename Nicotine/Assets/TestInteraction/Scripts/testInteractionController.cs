@@ -16,7 +16,7 @@ public class testInteractionController : EventScheduler
     void Start()
     {
         schedule(new dialogeEvent(textAssets.test.test1, speed, mainTextBox));
-        schedule(new dialogeEvent(textAssets.test.test2, speed, playerTextBox), 1);
+        addBackground(new ramble(textAssets.test.test2, speed, playerTextBox));
 
         run();
     }

@@ -15,7 +15,7 @@ public class dialogeEvent : Event {
         this.textBox = textBox;
     }
 
-    public override void onStart()
+    protected override void onStart()
     {
     
     }
@@ -82,5 +82,58 @@ public class dialogeEvent : Event {
 
         finished = true;
 
+    }
+}
+
+public class ramble : BackgroundEvent
+{
+
+    string[] text;
+    float speed;
+    TextMeshProUGUI textBox;
+
+
+    public ramble(string[] text, float speed, TextMeshProUGUI textBox)
+    {
+        this.text = text;
+        this.speed = speed;
+        this.textBox = textBox;
+    }
+
+    int dialogeIndex = 0;
+    int charIndex = 0;
+    float t = 0;
+
+    protected override void execute()
+    {
+
+        t += Time.deltaTime * speed;
+
+        if (dialogeIndex < text.Length)
+        {
+
+            if (charIndex < text[dialogeIndex].Length)
+            {
+
+                charIndex = Mathf.FloorToInt(t);
+
+                textBox.text = text[dialogeIndex].Substring(0, charIndex);
+
+            }
+
+            if (text[dialogeIndex] == textBox.text)
+            {
+                dialogeIndex++;
+            }
+
+        }
+        else
+        {
+
+            dialogeIndex = 0;
+            charIndex = 0;
+            t = 0;
+
+        }
     }
 }

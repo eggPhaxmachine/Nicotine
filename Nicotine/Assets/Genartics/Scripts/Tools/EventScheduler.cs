@@ -7,6 +7,13 @@ public class EventScheduler : MonoBehaviour
 
     private List<List<Event>> events = new List<List<Event>>();
 
+    private List<BackgroundEvent> backgroundEvents = new List<BackgroundEvent>();
+
+    public void addBackground(BackgroundEvent evt)
+    {
+        backgroundEvents.Add(evt);
+    }
+
     public void schedule(Event evt)
     {
         List<Event> path = new List<Event>{evt};
@@ -22,6 +29,7 @@ public class EventScheduler : MonoBehaviour
     public void run()
     {
         StartCoroutine(createCorotine());
+        startBackground();
     }
 
     public IEnumerator createCorotine()
@@ -61,5 +69,18 @@ public class EventScheduler : MonoBehaviour
                 evt.end();
             }
         }
+    }
+
+    public void startBackground()
+    {
+        foreach(BackgroundEvent evt in backgroundEvents)
+        {
+            StartCoroutine(evt.loop());
+        }
+    }
+
+    public void startBackground(int id)
+    {
+        StartCoroutine(backgroundEvents[id - 1].loop());
     }
 }
