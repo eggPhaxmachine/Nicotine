@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class dialogeEvent : Event {
+public class dialogeEvent   : Event {
 
     string[] text;
     float speed;
@@ -102,12 +102,12 @@ public class ramble : BackgroundEvent
 
     int dialogeIndex = 0;
     int charIndex = 0;
-    float t = 0;
+    float time = 0;
 
-    protected override void execute()
+    public override void execute()
     {
-
-        t += Time.deltaTime * speed;
+        
+        time += Time.deltaTime * speed;
 
         if (dialogeIndex < text.Length)
         {
@@ -115,15 +115,15 @@ public class ramble : BackgroundEvent
             if (charIndex < text[dialogeIndex].Length)
             {
 
-                charIndex = Mathf.FloorToInt(t);
+                charIndex = Mathf.FloorToInt(time);
 
                 textBox.text = text[dialogeIndex].Substring(0, charIndex);
 
             }
-
-            if (text[dialogeIndex] == textBox.text)
+            else
             {
                 dialogeIndex++;
+                charIndex = 0;
             }
 
         }
@@ -132,8 +132,13 @@ public class ramble : BackgroundEvent
 
             dialogeIndex = 0;
             charIndex = 0;
-            t = 0;
+            time = 0;
 
         }
+    }
+
+    protected override void end()
+    {
+        textBox.text = "";
     }
 }

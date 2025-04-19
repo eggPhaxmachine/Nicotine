@@ -7,16 +7,21 @@ public abstract class BackgroundEvent
 
     public IEnumerator loop()
     {
-        execute();
-
-        if (!active)
+        while (active)
         {
-            yield break;
+
+            execute();
+
+            yield return null;
+
         }
 
-        yield return null;
+        end();
+
     }
 
-    protected abstract void execute();
+    public abstract void execute();
+
+    protected abstract void end();
 
 }
