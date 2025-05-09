@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EventScheduler : MonoBehaviour
-{ 
-
-    private List<List<Event>> events = new List<List<Event>>();
+{
+    private Path curPath;
 
     private List<BackgroundEvent> backgroundEvents = new List<BackgroundEvent>();
 
@@ -14,16 +13,9 @@ public class EventScheduler : MonoBehaviour
         backgroundEvents.Add(evt);
     }
 
-    public void schedule(Event evt)
+    public void schedule(Path path)
     {
-        List<Event> path = new List<Event>{evt};
-
-        events.Add(path);
-    }
-
-    public void schedule(Event evt, int location)
-    {
-        events[location - 1].Add(evt);
+        curPath = path;
     }
 
     public void run()
