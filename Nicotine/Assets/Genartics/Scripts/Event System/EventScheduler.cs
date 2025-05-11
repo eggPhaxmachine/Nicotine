@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class EventScheduler : MonoBehaviour
+public abstract class EventScheduler : MonoBehaviour
 {
-    private Path curPath;
+    protected Path curPath;
 
-    private List<BackgroundEvent> backgroundEvents = new List<BackgroundEvent>();
+    protected List<BackgroundEvent> backgroundEvents = new List<BackgroundEvent>();
 
     public void addBackground(BackgroundEvent evt)
     {
@@ -23,43 +24,46 @@ public class EventScheduler : MonoBehaviour
         StartCoroutine(createCorotine());
         startBackground();
     }
-
-    public IEnumerator createCorotine()
+    
+    protected IEnumerator createCorotine()
     {
-
-        List<Event> runningEvents = new List<Event>();
-
-        foreach (List<Event> path in events)
+        while (curPath != null)
         {
-            foreach (Event evt in path)
+            bool[] runningEvents;
+
+            foreach (List<Event> parrelleEvent in curPath.events)
             {
+                runningEvents = new bool[parrelleEvent.Count];
 
-                evt.initialize();
-
-                StartCoroutine(evt.execute());
-
-                runningEvents.Add(evt);
-
-            }
-
-            while (runningEvents.Count != 0)
-            {
-                for (int i = 0; i < events.Count; i++)
+                for (int i = 0; i < parrelleEvent.Count; i++)
                 {
-                    if (path[i].isFinished())
-                    {
-                        runningEvents.RemoveAt(i);
-                    }
+
+                    parrelleEvent[i].initialize();
+
+                    StartCoroutine(parrelleEvent[i].execute());
+
+                    runningEvents[i] = true;
+
                 }
 
-                yield return null;
+                while (!runningEvents.All(evt => evt == false))
+                {
+                    for (int i = 0; i < parrelleEvent.Count; i++)
+                    {
+                        if (parrelleEvent[i].isFinished() && runningEvents[i])
+                        {
+                            runningEvents[i] = false;
+                            parrelleEvent[i].end();
+                        }
+                    }
 
+                    yield return null;
+
+                }
             }
 
-            foreach(Event evt in path)
-            {
-                evt.end();
-            }
+            curPath = curPath.next();
+
         }
     }
 
