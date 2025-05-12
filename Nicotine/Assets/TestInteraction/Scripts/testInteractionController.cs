@@ -12,11 +12,21 @@ public class testInteractionController : EventScheduler
     public TextMeshProUGUI mainTextBox;
     public TextMeshProUGUI playerTextBox;
 
+    
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        schedule(new dialogeEvent(textAssets.test.test1, speed, mainTextBox));
-        addBackground(new ramble(textAssets.test.test2, speed, playerTextBox));
+        SimplePath path2 = new SimplePath(null);
+        SimplePath path1 = new SimplePath(path2);
+
+        path1.schedule(new dialogeEvent(textAssets.test.test1, speed, mainTextBox));
+        path1.addBackground(new ramble(textAssets.test.test2, speed, playerTextBox));
+
+        path2.schedule(new dialogeEvent(textAssets.test.test2, speed, playerTextBox));
+
+        schedule(path1);
 
         run();
     }

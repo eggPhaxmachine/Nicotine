@@ -29,6 +29,12 @@ public abstract class EventScheduler : MonoBehaviour
     {
         while (curPath != null)
         {
+
+            foreach(BackgroundEvent backgroundEvent in curPath.backgroundEvents)
+            {
+                StartCoroutine(backgroundEvent.loop());
+            }
+
             bool[] runningEvents;
 
             foreach (List<Event> parrelleEvent in curPath.events)
@@ -60,6 +66,11 @@ public abstract class EventScheduler : MonoBehaviour
                     yield return null;
 
                 }
+            }
+
+            foreach(BackgroundEvent backgroundEvent in curPath.backgroundEvents)
+            {
+                backgroundEvent.active = false;
             }
 
             curPath = curPath.next();

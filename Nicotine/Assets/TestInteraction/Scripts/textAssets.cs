@@ -22,5 +22,16 @@ public class textAssets
             "this is the second piece of  text\n" +
             "sigma rizz"
         };
+
+        public static string[] test3 =
+        {
+            "hi eric again\n" +
+            "this is a different test\n" +
+            "this is line 9 (i am lying)",
+
+            "hello again\n" +
+            "this is the fourth piece of  text\n" +
+            "sigma rizz ohio"
+        };
     }
 }

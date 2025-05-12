@@ -6,7 +6,7 @@ public abstract class Path
 {
     public List<List<Event>> events = new List<List<Event>>();
 
-    private List<BackgroundEvent> backgroundEvents = new List<BackgroundEvent>();
+    public List<BackgroundEvent> backgroundEvents = new List<BackgroundEvent>();
 
     public void addBackground(BackgroundEvent evt)
     {
