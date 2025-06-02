@@ -1,3 +1,5 @@
+using UnityEngine.Rendering;
+
 public class textAssets
 {
     public class test 
@@ -32,6 +34,42 @@ public class textAssets
             "hello again\n" +
             "this is the fourth piece of  text\n" +
             "sigma rizz ohio"
+        };
+
+        public static string[] question1 =
+        {
+            "hi eric\n" +
+            "you have 3 choices",
+
+            "1\n" +
+            "2\n" +
+            "or 3"
+        };
+
+        public static string[] choice1 =
+        {
+            "you chose 1",
+
+            "you are right"
+        };
+
+        public static string[] choice2 =
+        {
+            "you chose 2",
+
+            "you are wrong"
+        };
+
+        public static string[] choice3 =
+        {
+            "you chose 3",
+
+            "kill yourself"
+        };
+
+        public static string[] ramble1 =
+        {
+            "choose faster"
         };
     }
 }

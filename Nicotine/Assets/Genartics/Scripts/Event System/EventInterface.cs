@@ -2,7 +2,12 @@
 
 public abstract class Event
 {
-    protected bool finished;
+    public bool finished;
+
+    public bool isFinished()
+    {
+        return finished; 
+    }
 
     public void initialize()
     {
@@ -10,12 +15,18 @@ public abstract class Event
         onStart();
     }
 
-    protected abstract void onStart();
+    protected virtual void onStart()
+    {
+
+    }
 
     public abstract IEnumerator execute();
 
-    public abstract bool isFinished();
-    
-    public abstract void end();
+    //public abstract bool isFinished();
+
+    public virtual void end()
+    {
+
+    }
 
 }

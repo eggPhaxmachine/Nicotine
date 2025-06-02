@@ -22,6 +22,9 @@ public abstract class BackgroundEvent
 
     public abstract void execute();
 
-    protected abstract void end();
+    protected virtual void end()
+    {
+
+    }
 
 }

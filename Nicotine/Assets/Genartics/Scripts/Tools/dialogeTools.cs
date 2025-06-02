@@ -15,24 +15,9 @@ public class dialogeEvent   : Event {
         this.textBox = textBox;
     }
 
-    protected override void onStart()
-    {
-    
-    }
-
     public override IEnumerator execute()
     {
         return dialogeCoroutine(text, speed, textBox);
-    }
-
-    public override bool isFinished()
-    {
-        return finished;
-    }
-
-    public override void end()
-    {
-        
     }
 
     public IEnumerator dialogeCoroutine(string[] text, float speed, TextMeshProUGUI textBox)
