@@ -1,0 +1,30 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class Path
+{
+    public List<List<Event>> events = new List<List<Event>>();
+
+    public List<BackgroundEvent> backgroundEvents = new List<BackgroundEvent>();
+
+    public void addBackground(BackgroundEvent evt)
+    {
+        backgroundEvents.Add(evt);
+    }
+
+    public void schedule(Event evt)
+    {
+        List<Event> path = new List<Event> { evt };
+
+        events.Add(path);
+    }
+
+    public void schedule(Event evt, int location)
+    {
+        events[location - 1].Add(evt);
+    }
+
+    public abstract Path next();
+
+}
