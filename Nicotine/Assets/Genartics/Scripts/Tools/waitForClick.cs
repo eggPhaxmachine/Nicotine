@@ -3,40 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class waitForClick : Event
+public class waitForClick : MonoBehaviour
 {
 
-    GameObject Object;
-    Button button;
+    public Button button;
     bool wasPressed = false;
 
-    public waitForClick(GameObject Object)
+    protected void onStart()
     {
-        this.Object = Object;
-    }
-
-    protected override void onStart()
-    {
-        if (Object.GetComponent<Button>() == null)
-        {
-              Object.AddComponent<Button>();
-        }
-
-        button = Object.GetComponent<Button>();
-
         button.onClick.AddListener(() =>
         {
             wasPressed = true;
         });
     }
 
-    public override IEnumerator execute()
+    public IEnumerator execute()
     {
         while (!wasPressed)
         {
-            yield return null;
+            yield return new WaitUntil(() => wasPressed);
         }
-
-        finished = true;
     }
 }

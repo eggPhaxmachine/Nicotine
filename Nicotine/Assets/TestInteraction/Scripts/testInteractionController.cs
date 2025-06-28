@@ -10,39 +10,30 @@ public class testInteractionController : EventScheduler
 
     public float speed;
 
-    public TextMeshProUGUI mainTextBox;
-    public TextMeshProUGUI playerTextBox;
+    public GameObject mainTextBox;
+    public GameObject playerTextBox;
 
-    public Canvas Canvas;
+    public Canvas canvas;
 
     public GameObject simpleButton;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
-        SimplePath choicePath1 = new SimplePath(null);
-        SimplePath choicePath2 = new SimplePath(null);
-        SimplePath choicePath3 = new SimplePath(null);
 
-        choicePath questionPath1 = new choicePath(choicePath1, choicePath2, choicePath3);
+        SimplePath testPath2 = new SimplePath(null);
+        SimplePath testPath = new SimplePath(testPath2);
 
-        //question question1 = new question(square, triamgle, kerklay);
-        //questionPath1.setPivot(question1);
+        testPath.schedule(mainTextBox.GetComponent<dialogeBehavor>().execute(textAssets.test.test1, 40), 1);
+        testPath.schedule(playerTextBox.GetComponent<dialogeBehavor>().execute(textAssets.test.test3, 40), 1);
+        testPath.schedule(simpleButton.GetComponent<waitForClick>().execute(), 1);
 
-        //questionPath1.addBackground(new ramble(textAssets.test.ramble1, speed, playerTextBox));
-        //questionPath1.schedule(new dialogeEvent(textAssets.test.question1, speed, mainTextBox));
-        //questionPath1.schedule(question1);
+        testPath2.schedule(playerTextBox.GetComponent<dialogeBehavor>().execute(textAssets.test.test2, 40), 1);
 
-        //choicePath1.schedule(new dialogeEvent(textAssets.test.choice1, speed, mainTextBox));
-        //choicePath2.schedule(new dialogeEvent(textAssets.test.choice2, speed, mainTextBox));
-        //choicePath3.schedule(new dialogeEvent(textAssets.test.choice3, speed, mainTextBox));
-
-        //schedule(questionPath1);
-
-        //run();
-
-        Instantiate(simpleButton, new Vector3(1000, 600, 0), new Quaternion(), Canvas.transform);
+        schedule(testPath);
+        begin();
     }
 
     // Update is called once per frame

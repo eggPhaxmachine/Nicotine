@@ -1,32 +1,80 @@
-  using System.Collections;
+using System;
+using System.Collections;
+using System.Threading.Tasks;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UIElements;
 
-public abstract class Event
+public class Event
 {
-    public bool finished;
 
-    public bool isFinished()
+    EventScheduler scheduler;
+
+    public Action run;
+
+    public int startIndex;
+    public int endIndex;
+
+    public eventStatus curStatus;
+
+    public enum eventStatus
     {
-        return finished; 
+        WAITING,
+        RUNNING,
+        FINISHED
     }
 
-    public void initialize()
+    public Event(Action action, int startIndex, int endIndex)
     {
-        finished = false;
-        onStart();
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
+
+        curStatus = eventStatus.WAITING;
+
+        scheduler = GameObject.FindObjectOfType<Canvas>().GetComponent<EventScheduler>();
+
+        run = () =>
+        {
+            
+            setStatus(eventStatus.RUNNING);
+            action();
+            markFinished();
+        };
+
     }
 
-    protected virtual void onStart()
+    public Event(IEnumerator coroutine, int startIndex, int endIndex)
     {
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
+
+        curStatus = eventStatus.WAITING;
+
+        scheduler = GameObject.FindObjectOfType<Canvas>().GetComponent<EventScheduler>();
+
+        run = () => scheduler.StartCoroutine(coroutineNest(coroutine));
 
     }
 
-    public abstract IEnumerator execute();
-
-    //public abstract bool isFinished();
-
-    public virtual void end()
+    public IEnumerator coroutineNest(IEnumerator coroutine)
     {
+        setStatus(eventStatus.RUNNING);
+        yield return coroutine;
+        markFinished();
+    }
 
+    public void setStatus(eventStatus status)
+    {
+        curStatus = status;
+    }
+
+    public void markFinished()
+    {
+        curStatus = eventStatus.FINISHED; 
+        if (scheduler.Index == endIndex)
+        {
+            scheduler.ping();
+        }
     }
 
 }

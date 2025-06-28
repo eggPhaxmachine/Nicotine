@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class question : simplePivoteEvent
+public class question
 {
 
     GameObject[] objects;
@@ -19,7 +19,7 @@ public class question : simplePivoteEvent
         wasPressed = new bool[objects.Length];
     }
 
-    protected override void onStart()
+    protected void onStart()
     {
         for (int i = 0; i < objects.Length; i++)
         {
@@ -39,16 +39,16 @@ public class question : simplePivoteEvent
         }
     }
 
-    public override IEnumerator execute()
+    public IEnumerator execute()
     {
-        while (!finished)
+        while (false)
         {
             for (int i = 0; i < wasPressed.Length; i++)
             {
                 if (wasPressed[i])
                 {
                     choice = i;
-                    finished = true;
+                    
                     break;
                 }
             }
@@ -57,7 +57,7 @@ public class question : simplePivoteEvent
         }
     }
 
-    public override int pivot()
+    public int pivot()
     {
         return choice;
     }
